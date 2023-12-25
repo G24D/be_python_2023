@@ -3,7 +3,7 @@ numbers = []
 while True:
     user_input = input("Enter a number (type 'done' to finish): ")
 
-    if user_input.lower() == 'done':
+    if user_input.lower() == "done":
         break
 
     try:

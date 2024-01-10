@@ -69,3 +69,25 @@ while True:
 
     except:
         print("NUMBERS ONLY")
+
+
+print('EX')
+print('==========================')
+
+total = 0
+count = 0 
+while True:
+    inp = input('Enter a number: ')
+    if inp.lower() == 'done':
+        avarage = total / count
+        print('Avarage: ', avarage)
+    try:
+        value = float(inp)
+        total = total + value
+        count = count + 1
+    except:
+        print('numbers only')
+        
+
+            
+

@@ -14,10 +14,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
+    path("accounts/", include("accounts.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    path("signup/", TemplateView.as_view(template_name="signup.html"), name="signup"),
+    path("login/", TemplateView.as_view(template_name="login.html"), name="login"),
+    path("accounts/password_change/", TemplateView.as_view(template_name="password_change_form.html"), name="home"),
+    path('', include('pages.urls')),
+    path('__reload__', include('django_browser_reload.urls')),
 ]

@@ -1,0 +1,16 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{%block title%}Newspaper App {%endblock title%}</title>
+  </head>
+
+  <body>
+    <main>{% block content %} {% endblock content%}</main>
+
+    <section class="flex items-center justify-center h-screen">
+        <h1 class="text-5xl font-extrabold ml-2">Django + Tailwind = ❤️</h1>
+    </section>
+  </body>
+</html>

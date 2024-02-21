@@ -1,18 +1,22 @@
 {% extends "base.html" %} 
 {% load static tailwind_tags %}
+
 {% block title %} Home {% endblock title %} 
-{% block content %} 
+{% block content %}
+<p class="text-3xl font-extrabold">
 {% if user.is_authenticated %} Hi {{ user.username }}!
+
+</p>
 <form action="{% url 'logout' %}" method="post">
   {% csrf_token %}
-  <button type="submit">Log Out</button>
+  <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-10 px-10 rounded">Log Out</button>
 </form>
 {% else %}
 <p>You are not logged in</p>
-<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-10 px-10 rounded"></button> |
+<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-10 px-10 rounded"> |
   <a href="{% url 'login' %}">Log In</a>
 </button>
-<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-10 px-10 rounded"></button> 
+<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-10 px-10 rounded">
   <a href="{% url 'signup' %}">Sign Up</a>
 </button>
 {% endif %} 

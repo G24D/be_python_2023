@@ -11,8 +11,46 @@ function App() {
   };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    this.setState({password: e.target.value});
   };
+
+  const handleUserChange = (e) => {
+    this.setState({username: e.target.value})
+  }
+
+  ifResponseOk(response){
+    if (response.status >= 200 && response.status <= 299) {
+      return response.json();
+    } else {
+      throw Error(response.statusText);
+    }
+  }
+}
+  login = (e) => {
+    e.preventDefault();
+    fetch("/api/login/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": cookies.get("csrftoken"),
+      },
+      credentials: "same-origin",
+      body: JSON.stringify(
+        {
+          username: this.state.username,
+          password: this.state.password,}),
+    })
+    .then(this.ifResponseOk)
+    .then((data)=> {
+      console.log(data);
+      this.setState({isauthenticated: true, username: "", password: "", error: ""});
+    })
+    .catch((err)=> {
+      console.log(err);
+      this.setState({error: "Wrong username or password"});
+    });
+  }
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,6 +58,55 @@ function App() {
     console.log('Email:', email);
     console.log('Password:', password);
   };
+
+  const cookies = new Cookies();
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: "",
+      error: "",
+      isauthenticated: false,
+    };
+  }
+
+  componentDidMount = () => {
+    this.getSession();
+  }
+
+  getSession = () => {
+    fetch("/api/session", {
+      credentials: "same-origin"
+    })
+    .then((res)=> res.json())
+    .then((data)=> {
+      console.log(data);
+      if (data.isauthenticated){
+        this.setState({isauthenticated: true});
+      } else {
+        this.setState({isauthenticated: false});
+      }
+    })
+    .catch((err)=> {
+      console.log(err);
+    })
+  }
+
+  whoami = () => {
+    fetch("/api/whoami/", {
+      headers:{
+        "Content-Type":"application/json",
+      },
+      credentials: "same-origin"
+    })
+    .then((res)=> res.json())
+    .then((data)=> console.log("You are logged in as: " + data.username))
+    .catch((err)=> {
+      console.log(err);
+    });
+  }
 
   return (
     <div className='mx-auto w-[800px]'>

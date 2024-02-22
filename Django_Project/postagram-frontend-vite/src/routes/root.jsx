@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 export default function Root() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-  
     const handleEmailChange = (e) => {
       setEmail(e.target.value);
     };

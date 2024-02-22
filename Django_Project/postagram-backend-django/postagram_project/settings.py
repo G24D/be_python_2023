@@ -36,8 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'posts.apps.PostsConfig',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +49,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permission.AllowAny']}
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'postagram_project.urls'
 
@@ -126,3 +130,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# SECURITY SETTINGS
+
+CSRF_COOKIE_SAMESITE = "Strict"
+
+SESSION_COOKIE_SAMESITE = "Strict"
+
+CSRF_COOKIE_HTTPPONLY = False
+
+SESSION_COOKIE_HTTPONLY = True
+
+# For production, set these lines to True
+
+# CSRF_COOKIE_HTTPPONLY = True
+
+# SESSION_COOKIE_HTTPONLY = False

@@ -37,12 +37,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "core",
-    "core.user",
     "rest_framework",
     "rest_framework_simplejwt",
+    "core",
+    "core.user",
     "core.auth",
-    "core.routers",
+    "core.post",
+    # "core.routers",
 ]
 
 MIDDLEWARE = [
@@ -55,15 +56,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
-    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
-    # 'DEFAULT_PAGINATION_CLASS':
-    #     'rest_framework.pagination.LimitOffsetPagination',
-    # 'PAGE_SIZE':15,
-}
 
 ROOT_URLCONF = "CoreRoot.urls"
 
@@ -93,11 +85,11 @@ WSGI_APPLICATION = "CoreRoot.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "postgres",
-        "USER": "G24D",
-        "PASSWORD": "Steam1017",
-        "HOST": "localhost",
+        "USER": "postgres.wwdpzvhnqorxgfzgwttx",
+        "PASSWORD": "99241017Steam1017",
+        "HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
         "PORT": "5432",
     }
 }
@@ -144,5 +136,11 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
 AUTH_USER_MODEL = "core_user.User"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+}

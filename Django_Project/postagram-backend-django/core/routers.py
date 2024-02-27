@@ -36,7 +36,7 @@ router.register(r"auth/refresh", RefreshViewSet, basename="auth-refresh")
 
 posts_router = routers.NestedSimpleRouter(router, r'post', lookup='post')
 
-router.register(r"post", PostViewSet, basename="post")
+router.register(PostViewSet, r"post", basename="post")
 
 
 posts_router.register(r'comment', PostViewSet, basename='post-comment')

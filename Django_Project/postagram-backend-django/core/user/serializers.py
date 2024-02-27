@@ -23,4 +23,3 @@ class UserSerializer(AbstractSerializer):
             "updated",
         ]
         read_only_field = ["is_active"]
-

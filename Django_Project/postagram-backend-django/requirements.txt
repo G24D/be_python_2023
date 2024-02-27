@@ -12,3 +12,4 @@ PyJWT==2.8.0
 pytz==2024.1
 sqlparse==0.4.4
 typing_extensions==4.10.0
+drf-nested-routers==0.93.5

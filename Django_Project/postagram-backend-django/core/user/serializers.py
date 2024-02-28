@@ -1,12 +1,24 @@
 from core.user.models import User
 from core.abstract.serializers import AbstractSerializer
 from rest_framework import serializers
-
+from django.conf import settings
 
 class UserSerializer(AbstractSerializer):
     id = serializers.UUIDField(source="public_id", read_only=True, format="hex")
     created = serializers.DateTimeField(read_only=True)
     updated = serializers.DateTimeField(read_only=True)
+    
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if not representation["avatar"]:
+            representation["avatar"] = settings.DEFAULT_AUTO_FIELD
+            return representation
+        if settings.DEBUG:  # debug enabled for dev
+            request = self.context.get("request")
+            representation["avatar"] = request.build_absolute_uri(
+                representation["avatar"]
+            )
+        return representation
 
     class Meta:
         model = User
@@ -23,3 +35,4 @@ class UserSerializer(AbstractSerializer):
             "updated",
         ]
         read_only_field = ["is_active"]
+

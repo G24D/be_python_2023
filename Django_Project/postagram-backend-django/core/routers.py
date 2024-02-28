@@ -1,4 +1,4 @@
-from rest_framework import routers
+# from rest_framework import routers
 from core.user.viewsets import UserViewSet
 from core.auth.viewsets import RegisterViewSet, LoginViewSet, RefreshViewSet
 from core.post.viewsets import PostViewSet
@@ -34,12 +34,12 @@ router.register(r"auth/refresh", RefreshViewSet, basename="auth-refresh")
 # ##################################################################### #
 
 
+router.register(r"post", PostViewSet, basename="post")
+
+
 posts_router = routers.NestedSimpleRouter(router, r'post', lookup='post')
 
-router.register(PostViewSet, r"post", basename="post")
-
-
-posts_router.register(r'comment', PostViewSet, basename='post-comment')
+posts_router.register(r'comment', CommentViewSet, basename='post-comment')
 
 
 urlpatterns = [

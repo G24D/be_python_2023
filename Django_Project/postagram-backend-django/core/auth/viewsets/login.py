@@ -13,7 +13,8 @@ class LoginViewSet(ViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
-
+        print(request.data)
+        
         try:
             serializer.is_valid(raise_exception=True)
         except TokenError as e:

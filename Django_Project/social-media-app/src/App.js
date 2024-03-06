@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Route,
   Routes
@@ -8,14 +8,19 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 
+
+
+
 function App() {
+
+
+
   return (
     <Routes>
 
       <Route path="/" element={
       <ProtectedRoute>
           <Home />
-          <Registration path="/" />
       </ProtectedRoute>
     } 
     />

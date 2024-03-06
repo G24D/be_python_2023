@@ -49,8 +49,8 @@ class User(AbstractModel, AbstractBaseUser, PermissionsMixin):
     comments_liked = models.ManyToManyField(
         "core_comment.Comment", related_name="commented_by"
     )
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = []
     objects = UserManager()
 
     def __str__(self):
@@ -79,7 +79,6 @@ class User(AbstractModel, AbstractBaseUser, PermissionsMixin):
         return self.comments_liked.filter(pk=comment.pk).exists()
 
     def user_directory_path(instance, filename):
-        return 'user_{0}/{1}'.format(instance.public_id, filename)
-    
-    
+        return "user_{0}/{1}".format(instance.public_id, filename)
+
     avatar = models.ImageField(null=True, blank=True, upload_to=user_directory_path)

@@ -45,7 +45,6 @@ class User(AbstractModel, AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     bio = models.TextField(null=True)
-    avatar = models.ImageField(null=True)
     posts_liked = models.ManyToManyField("core_post.Post", related_name="liked_by")
     comments_liked = models.ManyToManyField(
         "core_comment.Comment", related_name="commented_by"

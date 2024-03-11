@@ -26,20 +26,20 @@ const LoginForm = () => {
     login(data).catch((error) => {
       console.error(error);
     });
-    // try {
-    //     // const res = await axios.post("http://localhost:8000/api/auth/login/", form);
-    //     // localStorage.setItem("auth", JSON.stringify({
-    //     //     access: res.data.access,
-    //     //     refresh: res.data.refresh,
-    //     //     user: res.data.user,
-    //     // }));
+    try {
+        const res = await axios.post("http://localhost:8000/api/auth/login/", form);
+        localStorage.setItem("auth", JSON.stringify({
+            access: res.data.access,
+            refresh: res.data.refresh,
+            user: res.data.user,
+        }));
 
-    //     navigate("/");
-    // }
-    // catch (error)
-    // {
-    //     setError(error.response.data);
-    // }
+        navigate("/");
+    }
+    catch (error)
+    {
+        setError(error.response.data);
+    }
   };
 
 
@@ -88,7 +88,7 @@ const LoginForm = () => {
       <div className="text-content text-danger">{error && <p>{error}</p>}</div>
 
     <Link to={'/'}>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" onClick={handleSubmit}>
             Submit
         </Button>
     </Link>

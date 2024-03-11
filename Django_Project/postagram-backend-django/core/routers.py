@@ -15,6 +15,7 @@ router = routers.SimpleRouter()
 # ################### USER ###################### #
 # ##################################################################### #
 router.register(r"user", UserViewSet, basename="user")
+posts_router = routers.NestedSimpleRouter(router, r'user', lookup='user')
 
 
 # ##################################################################### #
@@ -35,7 +36,6 @@ router.register(r"auth/refresh", RefreshViewSet, basename="auth-refresh")
 
 
 router.register(r"post", PostViewSet, basename="post")
-
 
 posts_router = routers.NestedSimpleRouter(router, r'post', lookup='post')
 

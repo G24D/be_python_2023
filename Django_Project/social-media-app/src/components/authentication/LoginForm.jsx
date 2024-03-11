@@ -10,7 +10,7 @@ const LoginForm = () => {
   const [validated, setValidated] = useState(false);
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState(null);
-  const { login } = useUserActions();
+  const userActions= useUserActions();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const loginForm = event.currentTarget;
@@ -23,23 +23,26 @@ const LoginForm = () => {
       password: form.password,
     };
 
-    login(data).catch((error) => {
+    userActions.login(data).catch((error) => {
       console.error(error);
     });
-    try {
-        const res = await axios.post("http://localhost:8000/api/auth/login/", form);
-        localStorage.setItem("auth", JSON.stringify({
-            access: res.data.access,
-            refresh: res.data.refresh,
-            user: res.data.user,
-        }));
+    // try {
+    //     const res = await axios.post("http://localhost:8000/api/auth/login/", form);
+    //     localStorage.setItem("auth", JSON.stringify({
+    //         access: res.data.access,
+    //         refresh: res.data.refresh,
+    //         user: res.data.user,
+    //     }));
 
-        navigate("/");
-    }
-    catch (error)
-    {
-        setError(error.response.data);
-    }
+    //     navigate("/");
+    // }
+    // catch (error)
+    // {
+    //     setError(error.response.data);
+    // }
+
+
+
   };
 
 

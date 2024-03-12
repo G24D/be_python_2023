@@ -65,7 +65,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "CoreRoot.urls"
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:8000"]
 
 TEMPLATES = [
     {
@@ -104,6 +104,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        "USER": "postgres.wwdpzvhnqorxgfzgwttx",
+        "PASSWORD": "99241017Steam1017",
+        "HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
+        "PORT": "5432",
     }
 }
 

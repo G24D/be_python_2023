@@ -5,6 +5,8 @@ import axiosService from "../helpers/axios";
 const PostList = () => {
   const [posts, setPosts] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
+  const [comments, setComments] = useState('');
+  const [commentClickedMap, setCommentClickedMap] = useState({})
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,6 +21,26 @@ const PostList = () => {
     fetchData();
   }, []);
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/post/");
+        const initialCommentClickedMap = response.data.reduce((acc, post) => {
+          acc[post.id] = false;
+          return acc;
+        }, {});
+        setCommentClickedMap(initialCommentClickedMap);
+        setPosts(response.data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   const difDate = (createdDate) => {
     const currentDate = new Date();
     const differenceInMs = currentDate.getTime() - createdDate.getTime();
@@ -26,23 +48,47 @@ const PostList = () => {
     return hours;
   };
 
-  const handleLike = async (postId, index) => {
-    console.log("Like clicked for post ID:", postId);
+  const handleLike = async (postId) => {
+    console.log("ID", postId);
     try {
       if (isClicked) {
         await axiosService.post(`/post/${postId}/remove_like/`);
       } else {
         await axiosService.post(`/post/${postId}/like/`);
       }
-  
-      const response = await axios.get("http://localhost:8000/api/post/");
+
+      const response = await axiosService.get("http://localhost:8000/api/post/");
       setPosts(response.data);
       setIsClicked(!isClicked);
     } catch (error) {
       console.error("Error liking post:", error);
     }
   };
-  
+
+  const handleComment = async (postId, index) => {
+    console.log('ID', postId);
+    console.log(comments)
+    try {
+      await axiosService.post(`/post/${postId}/comment/`, { comment: comments });
+      const response = await axiosService.get("http://localhost:8000/api/post/");
+      setPosts(response.data);
+      setComments(''); 
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const openComment = (postId) => {
+    console.log('ID', postId);
+    setCommentClickedMap((prevMap) => ({
+      ...prevMap,
+      [postId]: !prevMap[postId],
+    }));
+  };
+
+  const handleChange = (e, postId) => {
+    let commentVal = e.target.value;
+    setComments(commentVal);
+  };
 
   return (
     <div className="container mx-auto">
@@ -68,7 +114,7 @@ const PostList = () => {
             <button
               className={`flex items-center px-4 py-2 rounded-md transition-colors duration-300 bg-gray-300`}
               onClick={() => {
-                handleLike(post.id, index);
+                handleLike(post.id);
               }}
             >
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gray-700">
@@ -80,7 +126,10 @@ const PostList = () => {
               <span className="mx-2">{post.likes_count}</span>
               Like
             </button>
-            <button className="flex items-center text-gray-600 hover:text-gray-800">
+            <button className="flex items-center text-gray-600 hover:text-gray-800" onClick={(e) => {
+              e.preventDefault();
+              openComment(post.id);
+            }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 mr-1"
@@ -95,6 +144,32 @@ const PostList = () => {
               </svg>
               Comment
             </button>
+            {commentClickedMap[post.id] ? <div className="my-4">
+              <form onSubmit={(e)=> {
+                e.preventDefault();
+                handleComment(post.id);
+              }}>
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="comment">
+                  Your Comment:
+                </label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                  id="comment"
+                  placeholder="Write your comment here..."
+                  // value={comments}
+                  onChange={(e)=> {
+                    handleChange(e, post.id)
+                  }}
+                />
+                <button
+                  type="submit"
+                  className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Submit Comment
+                </button>
+              </form>
+            </div> : null}
           </div>
         </div>
       ))}

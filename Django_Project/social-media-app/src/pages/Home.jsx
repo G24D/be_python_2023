@@ -5,7 +5,7 @@ import { getUser } from "../hooks/user.actions";
 import  Post from "./Post";
 import axios from "axios";
 import PostList from "./PostList";
-import Userlist from "./Userlist";
+import UserList from "./UserList";
 
 
 function Home() {
@@ -73,7 +73,7 @@ function Home() {
               <div className="text-4xl"><a href="#" className="no-underline text-white">Postagram</a></div>
             </div>
             <div className="flex items-center cursor-pointer" onClick={toggleDropdown}>
-              <img src={userProfile.avatar} alt="" />
+              <img src={userProfile.avatar} alt="" className="w-8 border border-black rounded-full mx-2"/>
 
               <div className="relative inline-block text-left">
                 <div>
@@ -137,7 +137,7 @@ function Home() {
 
       <div className="flex">
         <Post />
-        <Userlist />
+        <UserList />
       </div>
       
       <PostList />

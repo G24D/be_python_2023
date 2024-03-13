@@ -20,4 +20,8 @@ class UserPermission(BasePermission):
             if request.user.is_anonymous:
                 return request.method in SAFE_METHODS
             return bool(request.user and request.user.is_authenticated)
+        if view.basename in ["post-comment"]:
+            if request.user.is_anonymous:
+                return request.method in SAFE_METHODS
+            return bool(request.user and request.user.is_authenticated)
         return False

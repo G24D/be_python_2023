@@ -16,6 +16,9 @@ class CommentSerializer(AbstractSerializer):
     )
     liked = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField()
+    
+    print(author)
+    print(post)
 
     def get_liked(self, instance):
         request = self.context.get("request", None)
@@ -27,6 +30,7 @@ class CommentSerializer(AbstractSerializer):
         return instance.commented_by.count()
 
     def validate_author(self, value):
+        print('VALIDATION:' + value, 'USER:' + self.context['request'].user)
         if self.context["request"].user != value:
             raise ValidationError("You can't create a post for another user.")
         return value
@@ -64,3 +68,5 @@ class CommentSerializer(AbstractSerializer):
         "updated",
     ]
     read_only_fields = ["edited"]
+    
+        

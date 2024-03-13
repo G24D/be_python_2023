@@ -5,7 +5,7 @@ import axiosService from "../helpers/axios";
 const PostList = () => {
   const [posts, setPosts] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
-  const [comments, setComments] = useState('');
+  const [comments, setComments] = useState({});
   const [commentClickedMap, setCommentClickedMap] = useState({})
 
   useEffect(() => {
@@ -69,10 +69,9 @@ const PostList = () => {
     console.log('ID', postId);
     console.log(comments)
     try {
-      await axiosService.post(`/post/${postId}/comment/`, { comment: comments });
-      const response = await axiosService.get("http://localhost:8000/api/post/");
-      setPosts(response.data);
-      setComments(''); 
+      const res = await axiosService.post(`/post/${postId}/comment/`,  { comment: comments });
+
+      setComments(res.data);
     } catch (err) {
       console.log(err);
     }

@@ -23,6 +23,13 @@ from django.conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(("core.routers", "core"), namespace="core-api")),
+    path(
+        "api-auth/",
+        include(
+            "rest_framework.urls",
+            namespace="rest_framework",
+        )
+    ),
 ]
 
 if settings.DEBUG:

@@ -63,6 +63,7 @@ function getUser() {
 // Get the access token
 function getAccessToken() {
   const auth = JSON.parse(localStorage.getItem("auth"));
+  console.log(auth)
   return auth ? auth.access : null;
 }
 

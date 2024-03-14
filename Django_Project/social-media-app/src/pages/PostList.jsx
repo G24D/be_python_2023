@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import axiosService from "../helpers/axios";
+// import CommentForm from "./CommentForm";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
   const [comments, setComments] = useState({});
+  const [commentText, setCommentText] = useState('');
   const [commentClickedMap, setCommentClickedMap] = useState({})
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,17 +68,28 @@ const PostList = () => {
     }
   };
 
-  const handleComment = async (postId, index) => {
+  const handleComment = async (postId) => {
     console.log('ID', postId);
-    console.log(comments)
     try {
-      const res = await axiosService.post(`/post/${postId}/comment/`,  { comment: comments });
+      const res = await axiosService.post(`/post/${postId}/comment/`,  { comments: commentText });
+      
+      // setComments(res)
 
-      setComments(res.data);
+      const newCommentId = (comments[postId] ? comments[postId].length : 0) + 1;
+      const newCommentBody = commentText;
+
+      setComments((prevComments) => ({
+        ...prevComments,
+        [postId]: [...(prevComments[postId] || []), { id: newCommentId, body: newCommentBody }],
+      }));
+          
+      setCommentText('');
+      
     } catch (err) {
       console.log(err);
     }
   };
+
   const openComment = (postId) => {
     console.log('ID', postId);
     setCommentClickedMap((prevMap) => ({
@@ -84,13 +98,11 @@ const PostList = () => {
     }));
   };
 
-  const handleChange = (e, postId) => {
-    let commentVal = e.target.value;
-    setComments(commentVal);
-  };
-
   return (
     <div className="container mx-auto">
+      <button onClick={()=> {
+        console.log(comments)
+      }}>COMMENTS</button>
       <h1 className="text-4xl font-bold mb-8">Posts</h1>
       {posts.map((post, index) => (
         <div key={post.id} className="bg-white shadow-md rounded-lg p-6 mb-8 text-xl">
@@ -146,7 +158,7 @@ const PostList = () => {
             {commentClickedMap[post.id] ? <div className="my-4">
               <form onSubmit={(e)=> {
                 e.preventDefault();
-                handleComment(post.id);
+                handleComment(post.id, commentText);
               }}>
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="comment">
                   Your Comment:
@@ -156,11 +168,11 @@ const PostList = () => {
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                   id="comment"
                   placeholder="Write your comment here..."
-                  // value={comments}
+                  value={commentText}
                   onChange={(e)=> {
-                    handleChange(e, post.id)
+                    setCommentText(e.target.value);
                   }}
-                />
+                /> 
                 <button
                   type="submit"
                   className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -168,10 +180,19 @@ const PostList = () => {
                   Submit Comment
                 </button>
               </form>
+              
             </div> : null}
+            <div>
+            {comments[post.id] && comments[post.id].map((comment) => (
+          <div key={comment.id}>{comment.body}</div>
+        ))}
+            </div>
           </div>
+              
+          {/* <CommentForm postId={post.id} onCommentSubmit={handleCommentSubmit} /> */}
         </div>
       ))}
+
     </div>
   );
 };

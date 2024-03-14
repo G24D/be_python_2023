@@ -142,7 +142,6 @@ function Home() {
       
       <PostList />
 
-
       </div>
 
   );

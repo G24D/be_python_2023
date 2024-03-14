@@ -48,6 +48,7 @@ class CommentSerializer(AbstractSerializer):
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
+        # if isinstance(rep["author"], dict):
         author = User.objects.get_object_by_public_id(rep["author"])
         rep["author"] = UserSerializer(author, context=self.context).data
         return rep
@@ -56,17 +57,17 @@ class CommentSerializer(AbstractSerializer):
         model = Comment
 
     # List of all the fields that can be included in a request or a response
-    fields = [
-        "id",
-        "post",
-        "author",
-        "body",
-        "edited",
-        "liked",
-        "likes_count",
-        "created",
-        "updated",
-    ]
-    read_only_fields = ["edited"]
+        fields = [
+            "id",
+            "post",
+            "author",
+            "body",
+            "edited",
+            "liked",
+            "likes_count",
+            "created",
+            "updated",
+        ]
+        read_only_fields = ["edited"]
     
         

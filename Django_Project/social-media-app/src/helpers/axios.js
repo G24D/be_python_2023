@@ -24,7 +24,7 @@ const refreshAuthLogic = async (failedRequest) => {
   const { refresh } = JSON.parse(localStorage.getItem("auth"));
   return axios
     .post("/auth/refresh/", null, {
-      baseURL: "http://localhost:8000/api",
+      // baseURL: "http://localhost:8000/api",
       headers: {
         Authorization: `Bearer ${getRefreshToken()}`,
       },

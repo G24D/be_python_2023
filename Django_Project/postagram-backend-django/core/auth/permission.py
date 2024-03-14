@@ -1,7 +1,8 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
-
+from rest_framework.permissions import IsAuthenticated
 
 class UserPermission(BasePermission):
+    permission_classes = [IsAuthenticated]
     def has_object_permission(self, request, view, obj):
         if request.user.is_anonymous:
             return request.method in SAFE_METHODS

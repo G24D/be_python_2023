@@ -70,18 +70,24 @@ const PostList = () => {
 
   const handleComment = async (postId) => {
     console.log('ID', postId);
+    const commentObj =  {
+      author: postId,
+      body: 'dasdasdas',
+      post: postId,
+    }
+    setComments(commentObj)
+
     try {
-      const res = await axiosService.post(`/post/${postId}/comment/`,  { comments: commentText });
+      await axiosService.post(`/post/${postId}/comment/`,  { body: commentObj });
       
-      // setComments(res)
 
-      const newCommentId = (comments[postId] ? comments[postId].length : 0) + 1;
-      const newCommentBody = commentText;
+    //   const newCommentId = (comments[postId] ? comments[postId].length : 0) + 1;
+    //   const newCommentBody = commentText;
 
-      setComments((prevComments) => ({
-        ...prevComments,
-        [postId]: [...(prevComments[postId] || []), { id: newCommentId, body: newCommentBody }],
-      }));
+    //   setComments((prevComments) => ({
+    //     ...prevComments,
+    //     [postId]: [...(prevComments[postId] || []), { id: newCommentId, body: newCommentBody }],
+    //   }));
           
       setCommentText('');
       

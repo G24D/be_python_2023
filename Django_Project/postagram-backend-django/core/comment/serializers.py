@@ -69,5 +69,5 @@ class CommentSerializer(AbstractSerializer):
             "updated",
         ]
         read_only_fields = ["edited"]
-    
         
+            
